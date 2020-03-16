@@ -1,0 +1,9 @@
+list<int> lst1;
+list<int>::iterator iter1 = lst1.begin(), iter2 = lst1.end();
+while (iter1 < iter2) /*ERROR: operator< can't be applied to iterator for list*/
+
+Fixed:
+
+while(iter1 != iter2)
+
+operator < can be used in list,but can't be applied to iterator for list
