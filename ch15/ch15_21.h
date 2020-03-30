@@ -1,0 +1,67 @@
+#ifndef ch15_21_h
+#define ch15_21_h
+
+inline namespace EX21{
+    static const float PI = 3.14159f;
+
+    class Shape {
+    public:
+        virtual const char* shape_name() = 0;
+        virtual void resize_by_percentage(float pct) = 0;
+        virtual ~Shape() {}
+    };
+
+    class Shape_2D : public Shape{
+    public:
+        Shape_2D() = default;
+        Shape_2D(float x, float y): x_(x), y_(y) {}
+
+        virtual float area() const = 0;
+        virtual float diameter() const = 0;
+        virtual float circumference() const = 0;
+
+        virtual ~Shape_2D() override {}
+
+    protected:
+        float x_ = 0.f;
+        float y_ = 0.f;
+    };
+
+    class Shape_3D : public Shape{
+    public:
+        Shape_3D() = default;
+        Shape_3D(float x, float y, float z) : x_(x), y_(y), z_(z) {}
+
+        virtual float volume() const = 0;
+
+        virtual ~Shape_3D() override{}
+
+    protected:
+        float x_=0.f;
+        float y_=0.f;
+        float z_=0.f;
+    };
+
+	class Box : public Shape_3D {
+	public:
+		Box() = default;
+		explicit Box(float width) : half_len_x_(width * 0.5f), half_len_y_(width * 0.5f), half_len_z_(width * 0.5f) {}
+		Box(float center_x, float center_y, float center_z, float len_x, float len_y, float len_z) : Shape_3D(center_x, center_y, center_z),
+		half_len_x_(len_x * 0.5f), half_len_y_(len_y * 0.5f), half_len_z_(len_z * 0.5f) {}
+
+		inline virtual const char* shape_name() override { return "Box"; }
+		inline virtual void resize_by_percentage(float pct) override { half_len_x_ *= pct; half_len_y_ *= pct; half_len_z_ *= pct; }
+
+		inline float volume() const override { return half_len_x_ * half_len_y_ * half_len_z_ * 8; }
+
+		virtual ~Box() override {}
+
+	protected:
+		float half_len_x_ = 0.5f;
+		float half_len_y_ = 0.5f;
+		float half_len_z_ = 0.5f;
+	};
+    
+}
+
+#endif
